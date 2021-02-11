@@ -57,8 +57,7 @@ other repos too and with other destinations.
 
 The result is I have been using this management script on all three major
 desktop OSes since 2017 and it makes me happy. I take this script with me
-wherever I go, as is the intent of dotfiles repot.
-to friends' servers and other places to deploy little pieces as needed.
+wherever I go, as is the intent of a dotfiles repo.
 
 The `purge` feature allows programmatic cleanup.
 
@@ -67,10 +66,10 @@ The `purge` feature allows programmatic cleanup.
 Yes. Originally the project took only fifteen minutes.
 
 Since, it has required some tender loving care in maintenance and dives, mostly to
-breaking API changes courtesy of $MSFT and Guido's Python Source Foundation.
-Maintenace is unavoidable in software written to simulatneously and
-idempotently support multiple versions of operating systems, and multiple
-versions of an interepreted programming language famous for the endless breaking
+breaking API changes courtesy of ahem, operating systems.
+Maintenance is unavoidable in software written to
+support multiple versions of operating systems, and multiple
+versions of an interpreted programming language famous for the endless breaking
 changes in its core library.
 
 
