@@ -6,13 +6,48 @@ Toda ([תודה](https://en.wiktionary.org/wiki/%D7%AA%D7%95%D7%93%D7%94)) gives
 the power to safely deploy files using symlinks on any
 operating system with Python installed.
 
-Toda requires only core Python, supporting versions 3.4+ and 2.7 in that order.
+Toda requires only core Python, supporting versions 3.4+ and 2.7. Toda has
+multi-platform support for POSIX-compliant systems, Linux (Debian, Ubuntu, etc),
+Windows, macOS and BSDs in that order of priority.
 
-Multi-platform support for POSIX-compliant systems, Debian GNU/Linux, Windows,
-  macOS and BSDs in that order of priority.
+Catch22: Toda requires admin rights on Windows. See
+[#8](https://github.com/ypcrts/toda/issues/8)
 
-It requires admin on Windows, because symlinking is
-a privileged operation on Windows.
+## `toda`
+```
+usage: toda [-h] [-n] [-m MANIFEST] [-f] [-v]
+                   [{install,purge,inspect}] [section [section ...]]
+
+creates symlinks described by a manifest
+
+positional arguments:
+  {install,purge,inspect}
+  section               manifest target
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n, --dry-run         nop out all syscalls, verbose
+  -m MANIFEST, --manifest MANIFEST
+                        path to custom manifest file
+  -f, --force           allow clobbering files in target paths
+  -v, --verbose
+```
+
+## `MANIFEST` file syntax
+
+- `~/bin/destination_link: ./section/source_file`
+  - destination-to-source mapping, with the two arguments delimited by a colon
+
+- `$ bin`
+  - defines the `bin` section
+
+- `/bin/sh: @delete`
+  deletes /bin/sh
+
+- `@include: bin default`
+   - includes `bin` and `default`
+   - in each run of `manifest.py` includes are resolved recursively so that they
+       are only processed once
 
 ### Why did you roll your own dotfiles management script?
 
@@ -77,41 +112,7 @@ changes in its core library.
 ### Did you create more tech debt for yourself than you bargained for?
 
 Yes, absolutely, but there's no other cross-platform tool that does this job.
-The main pain is maintaining Windows support because of new OS changes. 
+The main pain is maintaining Windows support because of the Windows 10 user symlink support which was added
+in 2016. I haven't figured out how to make them work well so, `toda` on Windows requires admin.
 
 
-## `toda`
-```
-usage: toda [-h] [-n] [-m MANIFEST] [-f] [-v]
-                   [{install,purge,inspect}] [section [section ...]]
-
-creates symlinks described by a manifest
-
-positional arguments:
-  {install,purge,inspect}
-  section               manifest target
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -n, --dry-run         nop out all syscalls, verbose
-  -m MANIFEST, --manifest MANIFEST
-                        path to custom manifest file
-  -f, --force           allow clobbering files in target paths
-  -v, --verbose
-```
-
-## `MANIFEST` file syntax
-
-- `~/bin/destination_link: ./section/source_file`
-  - destination-to-source mapping, with the two arguments delimited by a colon
-
-- `$ bin`
-  - defines the `bin` section
-
-- `/bin/sh: @delete`
-  deletes /bin/sh
-
-- `@include: bin default`
-   - includes `bin` and `default`
-   - in each run of `manifest.py` includes are resolved recursively so that they
-       are only processed once

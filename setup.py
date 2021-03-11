@@ -11,7 +11,7 @@ setup(
     ),
     install_requires=[""],
     author="ypcrts",
-    author_email="ypcrts",
+    author_email="ypcrts@users.noreply.github.com",
     url="https://github.com/ypcrts/toda",
     keywords=["dotfiles", "symlink", "environment"],
     license="MPL 2.0",
