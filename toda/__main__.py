@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.WARN)
 log.addHandler(logging.StreamHandler())
 
-if __name__ == "__main__":
+def main():
     startdir = os.getcwd()
     parser = argparse.ArgumentParser(
         description="creates symlinks described by a manifest"
@@ -86,3 +86,7 @@ if __name__ == "__main__":
             assert sn in m, "section `{:s}` is not in the manifest".format(sn)
 
     getattr(Actions(m, args), args.action)()
+
+
+if __name__ == "__main__":
+    main()
