@@ -51,68 +51,44 @@ optional arguments:
 
 ### Why did you roll your own dotfiles management script?
 
-I used [vcsh](https://github.com/RichiH/vcsh) for a few years, but I didn't like
+I used [vcsh](https://github.com/RichiH/vcsh) for years, but I didn't like
 having to carry around functionally-divided repos, as repo clone time is
-a barrier. I found it clunky switching between many repos. I also wanted native
-Windows support. I wanted many deployable pieces in one `dots` repo and then to
-choose what to pollute the system with. To complicate it further, I wanted to be
-able to use the management script with other repos too and with other
-destinations.
+a barrier. I found it clunky switching between many repos. I wanted many
+deployable pieces in one `dots` repo and then to choose what to pollute the
+system with. To complicate it further, I wanted to be able to use the management
+script with other repos too and with other destinations.
 
-The result is I have been using this management script on all three major
-desktop OSes since 2017 and it makes me happy. I take this script with me
-wherever I go, as is the intent of a dotfiles repo.
+### Why did you roll your own domain-specific language for the manifest file?
 
-The `purge` feature allows programmatic cleanup.
-
-### Why did you roll your own manifest file format specification?
-
-I've asked the blue if I think this was an anti-pattern. It is. But I chose this
-path consciously. It was suggested that I preemptively explain my thinking. So
-here we go.
+Is this an anti-pattern? It is.
 
 Originally I wanted to use JSON, but the syntax is a pain to maintain manually.
-Then I thought I'd use YAML to take advantage of references. When I realized
-that multi-chain sets with references were not supported by any YAML spec
-I reviewed, I judged that relying on an imperfect file format and implementing
-my own application layer on top of it would be harder to interpret for others,
-and subject to errors in the parser. By working backwards from my custom spec,
-I could guarantee that harmony between the parser and application logic.
+Then I thought I'd use YAML to take advantage of references, but YAML spec
+didn't offer all the functionality I wanted.
 
-My decision eliminated categories of threats that affect file formats
+This eliminated categories of bugs that affect file formats
 compatible with diverse range of weak parsers: (1) undefined behaviour in a spec
-may cause divergent parser implementations, which may silently lead to
+may promote divergent parser implementations, which may silently lead to
 inconsistent state, (2) non-uniform support across parsers for extensions to the
-spec may silently lead to inconsistent state, (3) improper parser
-implementations may silently lead to inconsistent state, and (4) inconsistent
-state leads to inconsistent code execuion.
-
-I wanted to be able to delete some files, link files, link files in a directory
-to target location, include other sections. I didn't want this done in code.
-I wanted a file format that only contained primitives, so that way I could look
-at an untrusted manifest file and see what it does.
-
-I decided to write my own file spec inspired by the Makefile spec's destination
-and source mappings. Unlike Makefiles, my spec does not allow arbitrary command
-execution.
+spec may silently lead to inconsistent state, and (3) inconsistent
+state leads to inconsistent code execution.
 
 
-### Was rolling your own file spec and dotfiles management script an efficient use of your time?
+
+### Was rolling your own dotfiles management script an efficient use of your time?
 
 Yes. Originally the project took only fifteen minutes.
 
-Since, it has required some tender loving care in maintenance and dives, mostly to
-breaking API changes courtesy of ahem, operating systems.
-Maintenance is unavoidable in software written to
-support multiple versions of operating systems, and multiple
-versions of an interpreted programming language famous for the endless breaking
-changes in its core library.
+Since, it has required some tender loving care in maintenance and dives, mostly
+to breaking API changes courtesy of ahem, operating systems. Maintenance is
+unavoidable in software written to support multiple versions of operating
+systems, and multiple versions of an interpreted programming language famous for
+the endless breaking changes in its core library.
 
 
 ### Did you create more tech debt for yourself than you bargained for?
 
 Yes, absolutely, but there's no other cross-platform tool that does this job.
-The main pain is maintaining Windows support because of the Windows 10 user symlink support which was added
-in 2016. I haven't figured out how to make them work well so, `toda` on Windows requires admin.
-
-
+The main pain is maintaining Windows support because of the Windows 10 user
+symlink support which was added in 2016. I haven't figured out how to make that
+work well so, `toda` on Windows requires admin.
